@@ -162,52 +162,104 @@ std::string Rojinegro<T>::color(NodoB<T> * nodo)
 }
 
 template<class T>
-void Rojinegro<T>::rotateLeft(Rojinegro * arbol, NodoB<T> * nodo)
+void Rojinegro<T>::rotateLeft(Rojinegro * arbol, NodoB<T> * node_x)
 {
-    NodoB<T> * temp = nodo->getDerecho();
+    NodoB<T> *node_y;
     
-    if(nodo->getPadre() == nullptr)
-        arbol->setRaiz(temp);
-    else if(nodo->getPadre()->getIzquierdo() == nodo)
-        nodo->getPadre()->setIzquierdo(temp);
-    else
-        nodo->getPadre()->setDerecho(temp);
-
-    if(temp != nullptr)
-        temp->setPadre(nodo->getPadre());
-    
-    nodo->setDerecho(temp->getIzquierdo());
-    
-    if (temp->getIzquierdo() != nullptr)
-    {
-        temp->getIzquierdo()->setPadre(nodo);
+    if(node_x->getDerecho() == NULL){
+        return;
     }
-    temp->setIzquierdo(nodo);
-    nodo->setPadre(temp);
+    
+    node_y = node_x->getDerecho();
+    
+    if(node_y->getIzquierdo() != NULL){
+        node_y->getIzquierdo()->setPadre(node_x);
+        node_x->setDerecho(node_y->getIzquierdo());
+    }
+    
+    node_y->setPadre(node_x->getPadre());
+    
+    if(node_x->getPadre() == NULL){
+        this->setRaiz(node_y);
+    }else if(node_x == node_x->getPadre()->getIzquierdo()){
+        node_x->getPadre()->setIzquierdo(node_y);
+    }else{
+        node_x->getPadre()->setDerecho(node_y);
+    }
+    
+    node_x->setDerecho(node_y->getIzquierdo());
+    node_y->setIzquierdo(node_x);
+    node_x->setPadre(node_y);//    NodoB<T> * temp = nodo->getDerecho();
+//    
+//    if(nodo->getPadre() == nullptr)
+//        arbol->setRaiz(temp);
+//    else if(nodo->getPadre()->getIzquierdo() == nodo)
+//        nodo->getPadre()->setIzquierdo(temp);
+//    else
+//        nodo->getPadre()->setDerecho(temp);
+//
+//    if(temp != nullptr)
+//        temp->setPadre(nodo->getPadre());
+//    
+//    nodo->setDerecho(temp->getIzquierdo());
+//    
+//    if (temp->getIzquierdo() != nullptr)
+//    {
+//        temp->getIzquierdo()->setPadre(nodo);
+//    }
+//    temp->setIzquierdo(nodo);
+//    nodo->setPadre(temp);
 }
 
 template<class T>
-void Rojinegro<T>::rotateRight(Rojinegro * arbol, NodoB<T> * nodo)
+void Rojinegro<T>::rotateRight(Rojinegro * arbol, NodoB<T> * node_y)
 {
-    NodoB<T> * temp = nodo->getIzquierdo();
+    NodoB<T> *node_x;
     
-    if(nodo->getPadre() == nullptr)
-        arbol->setRaiz(temp);
-    else if(nodo->getPadre()->getIzquierdo() == nodo)
-        nodo->getPadre()->setIzquierdo(temp);
-    else
-        nodo->getPadre()->setDerecho(temp);
-    
-    if(temp != nullptr)
-        temp->setPadre(nodo->getPadre());
-    
-    nodo->setIzquierdo(temp->getDerecho());
-    if (temp->getDerecho() != nullptr)
-    {
-        nodo->getDerecho()->setPadre(nodo);
+    if(node_y->getIzquierdo() == NULL){
+        return;
     }
-    temp->setDerecho(nodo);
-    nodo->setPadre(temp);
+    
+    node_x = node_y->getIzquierdo();
+    
+    if(node_x->getDerecho() != NULL){
+        node_x->getDerecho()->setPadre(node_y);
+        node_y->setIzquierdo(node_x->getDerecho());
+    }
+    
+    node_x->setPadre(node_y->getPadre());
+    
+    if(node_y->getPadre() == NULL){
+        this->setRaiz(node_x);
+    }else if(node_y == node_y->getPadre()->getIzquierdo()){
+        node_y->getPadre()->setIzquierdo(node_x);
+    }else{
+        node_y->getPadre()->setDerecho(node_x);
+    }
+    
+    node_y->setIzquierdo(node_x->getDerecho());
+    node_x->setDerecho(node_y);
+    node_y->setPadre(node_x);
+
+//    NodoB<T> * temp = nodo->getIzquierdo();
+//    
+//    if(nodo->getPadre() == nullptr)
+//        arbol->setRaiz(temp);
+//    else if(nodo->getPadre()->getIzquierdo() == nodo)
+//        nodo->getPadre()->setIzquierdo(temp);
+//    else
+//        nodo->getPadre()->setDerecho(temp);
+//    
+//    if(temp != nullptr)
+//        temp->setPadre(nodo->getPadre());
+//    
+//    nodo->setIzquierdo(temp->getDerecho());
+//    if (temp->getDerecho() != nullptr)
+//    {
+//        nodo->getDerecho()->setPadre(nodo);
+//    }
+//    temp->setDerecho(nodo);
+//    nodo->setPadre(temp);
 }
 
 template<class T>
