@@ -10,6 +10,7 @@
 
 #include "AVL.h"
 #include "Rojinegro.h"
+//#include "RBTree.h"
 
 using namespace std;
 
@@ -62,19 +63,29 @@ int main(int argc, const char * argv[])
     
     Rojinegro<int> * arbol = new Rojinegro<int>();
     //int a[] = {100, 49, 43, 23, 1, 2, 34, 2, 23, 55, 36, 17, 28, 35, 0, 79, 55, 42, 23, 12, 34, 11, 4, 17};
-    arbol->RBinsert(100);
-    arbol->RBinsert(49);
-    arbol->RBinsert(23);
-    arbol->RBinsert(1);
-    arbol->RBinsert(2);
-    arbol->RBinsert(34);
-    
-    arbol->RBinsert(2);
-    arbol->RBinsert(23);
-    arbol->RBinsert(55);
-    arbol->RBinsert(36);
-    arbol->RBinsert(17);
-    arbol->RBinsert(28);
+    srand((int) time(NULL));
+
+    int a[1000];
+
+/**********************************LLENAR EL ARREGLO**************************************/
+
+    for (int i = 0; i < 1000; ++i)
+    {
+        a[i] = rand() % 10000;
+    }
+//    arbol->RBinsert(100);
+//    arbol->RBinsert(49);
+//    arbol->RBinsert(23);
+//    arbol->RBinsert(1);
+//    arbol->RBinsert(2);
+//    arbol->RBinsert(34);
+//    
+//    arbol->RBinsert(2);
+//    arbol->RBinsert(23);
+//    arbol->RBinsert(55);
+//    arbol->RBinsert(36);
+//    arbol->RBinsert(17);
+//    arbol->RBinsert(28);
 //    arbol->RBinsert(35);
 //    arbol->RBinsert(0);
 //    arbol->RBinsert(79);
@@ -86,17 +97,17 @@ int main(int argc, const char * argv[])
 //    arbol->RBinsert(11);
 //    arbol->RBinsert(4);
 //    arbol->RBinsert(7);
+//    arbol->RBinsert(-1);
     
-//    for(int i=0; i<24; i++)
-//    {
-//        std::cout << "Insertando " << a[i] << std::endl;
-//        arbol->RBinsert(a[i]);
-//    }
-    arbol->prettyPrint(arbol->getRaiz(), 0);
+    for(int i=0; i<1000; i++)
+    {
+        arbol->RBinsert(a[i]);
+    }
+//    arbol->prettyPrint(arbol->getRaiz(), 0);
 
+    arbol->inOrden();
     
 
-    
-    
+//
     return 0;
 }
