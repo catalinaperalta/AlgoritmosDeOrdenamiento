@@ -27,7 +27,8 @@ public:
     void verifyProperty1(NodoB<T> * nodo);
     void verifyProperty2(NodoB<T> * nodo);
     void verifyProperty3(NodoB<T> * nodo);
-    void verifyProperty4(NodoB<T> * nodo, int countBlack, int & blackPath);
+    void verifyProperty4(NodoB<T> * root);
+    void verifyProperty4Helper(NodoB<T> * nodo, int contNegros, int& blackPath);
     
     std::string color(NodoB<T> * nodo);
     
@@ -94,7 +95,7 @@ void Rojinegro<T>::verifyProperties(Rojinegro * arbol)
     verifyProperty1(arbol->getRaiz());
     verifyProperty2(arbol->getRaiz());
     verifyProperty3(arbol->getRaiz());
-//    verifyProperty4(arbol->getRaiz());
+    verifyProperty4(arbol->getRaiz());
 }
 
 template<class T>
@@ -132,24 +133,38 @@ void Rojinegro<T>::verifyProperty3(NodoB<T> * nodo)
     verifyProperty3(nodo->getDerecho());
 }
 
-/************************************NOT WORKING ******************************************/
-template<class T>
-void Rojinegro<T>::verifyProperty4(NodoB<T> * nodo, int countBlack, int & blackPath)
+template <class T>
+void Rojinegro<T>::verifyProperty4(NodoB<T> * root)
 {
-//    int blackPath = -1;
-//    
-//    if (color(nodo) == "negro")
-//    {
-//        countBlack++;
-//    }
-//    
-//    if (nodo == nullptr)
-//    {
-//        return;
-//    }
-//    
-//    verifyProperty4(nodo->getIzquierdo(),  countBlack, *blackPath);
-//    verifyProperty4(nodo->getDerecho(), countBlack, *blackPath);
+    int blackPath = -1;
+    verifyProperty4Helper(root, 0, blackPath);
+}
+
+template <class T>
+void Rojinegro<T>::verifyProperty4Helper(NodoB<T> * nodo, int contNegros, int& blackPath)
+{
+    
+    if (nodo != nullptr) {
+        if (nodo->getColor() == "negro")
+        {
+            contNegros++;
+        }
+        if (nodo == nullptr)
+        {
+            if (blackPath == -1)
+            {
+                blackPath = contNegros;
+            }
+            else
+            {
+                assert (contNegros == blackPath);
+            }
+            return;
+        }
+        verifyProperty4Helper(nodo->getIzquierdo(),  contNegros, blackPath);
+        verifyProperty4Helper(nodo->getDerecho(), contNegros, blackPath);
+    }
+    
 }
 
 template<class T>
@@ -336,6 +351,63 @@ void Rojinegro<T>::insertCase5(Rojinegro * arbol, NodoB<T> * nodo)
         assert(nodo == nodo->getPadre()->getDerecho() && nodo->getPadre() == grandparent(nodo)->getDerecho());
         rotateLeft(arbol, grandparent(nodo));
     }
+}
+
+template <class T>
+void Rojinegro<T>::RBdelete(T valor)
+{
+//    NodoB<T> * hijo;
+//    NodoB<T> * nodo;
+//    nodo = this->buscar(valor);
+//    if (nodo == nullptr)
+//        return;
+//    
+//    if (nodo->getIzquierdo() != nullptr && nodo->getDerecho() != nullptr)
+//    {
+//        NodoB<T> * pred = maximum_node(nodo->getIzquierdo());
+//        nodo->getInfo() = pred->getInfo();
+//        nodo = pred;
+//    }
+//    assert(nodo->getIzquierdo() == NULL || nodo->getDerecho() == nullptr);
+//    hijo = nodo->getDerecho() == nullptr ? nodo->getIzquierdo()  : nodo->getDerecho();
+//    if (color(nodo) == "negro")
+//    {
+//        nodo->getColor() = color(hijo);
+//        //deleteCase1(this, nodo);
+//    }
+//    replace_node(this, nodo, hijo);
+//    free(nodo);
+//    verifyProperties(this);
+}
+
+template <class T>
+void Rojinegro<T>::deleteCase1(Rojinegro * arbol, NodoB<T> * nodo)
+{
+    
+}
+
+template <class T>
+void Rojinegro<T>::deleteCase2(Rojinegro * arbol, NodoB<T> * nodo)
+{
+    
+}
+
+template <class T>
+void Rojinegro<T>::deleteCase3(Rojinegro * arbol, NodoB<T> * nodo)
+{
+    
+}
+
+template <class T>
+void Rojinegro<T>::deleteCase4(Rojinegro * arbol, NodoB<T> * nodo)
+{
+    
+}
+
+template<class T>
+void Rojinegro<T>::deleteCase5(Rojinegro * arbol, NodoB<T> * nodo)
+{
+    
 }
 
 template <class T>
