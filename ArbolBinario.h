@@ -43,6 +43,9 @@ public:
     void inOrden();
     void inOrden(NodoB<T> * nodo);
     
+    void revOrden();
+    void revOrden(NodoB<T> * nodo);
+    
     void postOrden();
     void postOrden(NodoB<T> * nodo);
     
@@ -50,6 +53,15 @@ public:
     friend std::ostream& operator<<(std::ostream& os, ArbolBinario<Tn> &arbol);
     
     int nivel(NodoB<T> * nodo);
+    
+    int getHeight();
+    int getHeight(NodoB<T> * node);
+    
+    int getProfundidad();
+    int getProfundidad(NodoB<T> * node);
+    
+    int getNivel();
+    int getNivel(NodoB<T> * node);
     
     NodoB<T> * suma_ineficiente();
     NodoB<T> * suma_ineficiente(NodoB<T> * nodo);
@@ -68,6 +80,9 @@ public:
     
     NodoB<T> * buscar (T info);
     NodoB<T> * buscar (T info, NodoB<T> * nodo);
+    
+    int getBalanceFactor();
+    int getBalanceFactor(NodoB<T> * node);
 };
 
 template <class T>
@@ -135,7 +150,7 @@ template <class T>
 void ArbolBinario<T>::preOrden() {
     preOrden(raiz);
 }
-//this used to be 
+//this used to be
 template <class T>
 void ArbolBinario<T>::preOrden(NodoB<T> * nodo) {
     if (nodo) {
@@ -164,11 +179,24 @@ template <class T>
 void ArbolBinario<T>::inOrden(NodoB<T> * nodo) {
     if (nodo) {
         inOrden(nodo->getIzquierdo());
-        std::cout << *nodo << " " <<nodo->getColor()<<" ";
+        std::cout << *nodo << " ";
         inOrden(nodo->getDerecho());
     }
 }
 
+template <class T>
+void ArbolBinario<T>::revOrden() {
+    revOrden(raiz);
+}
+
+template <class T>
+void ArbolBinario<T>::revOrden(NodoB<T> * nodo) {
+    if (nodo) {
+        revOrden(nodo->getDerecho());
+        std::cout << *nodo << " ";
+        revOrden(nodo->getIzquierdo());
+    }
+}
 template <class T>
 void ArbolBinario<T>::postOrden() {
     postOrden(raiz);
@@ -197,6 +225,65 @@ int ArbolBinario<T>::nivel(NodoB<T> *nodo) {
     return nivel;
 }
 
+template <class T>
+int ArbolBinario<T>::getHeight()
+{
+    return getHeight(raiz);
+}
+
+template <class T>
+int ArbolBinario<T>::getHeight(NodoB<T> * node)
+{
+    if (node == nullptr)
+    {
+        return -1;
+    }
+    else
+    {
+        int leftCount = getHeight(node->getIzquierdo());
+        int rightCount = getHeight(node->getDerecho());
+        
+        if (leftCount <= rightCount)
+        {
+            return rightCount +1;
+        }
+        else
+        {
+            return leftCount +1;
+        }
+    }
+}
+
+template <class T>
+int ArbolBinario<T>::getNivel()
+{
+    return getNivel(raiz);
+}
+
+template <class T>
+int ArbolBinario<T>::getNivel(NodoB<T> * node)
+{
+    if (node == nullptr)
+    {
+        return 0;
+    }
+    else
+    {
+        return getNivel(node->getPadre()) + 1;
+    }
+}
+
+template <class T>
+int ArbolBinario<T>::getProfundidad()
+{
+    return getDepth(raiz);
+}
+
+template <class T>
+int ArbolBinario<T>::getProfundidad(NodoB<T> * node)
+{
+    return getNivel(node) - 1;
+}
 
 template <class T>
 NodoB<T> * ArbolBinario<T>::buscar(T info)
@@ -207,30 +294,30 @@ NodoB<T> * ArbolBinario<T>::buscar(T info)
 template <class T>
 NodoB<T> * ArbolBinario<T>::buscar(T info, NodoB<T> * node)
 {
-//    NodoB<T> * encontrado = nullptr;
-//    
-//    if (nodo) {
-//        if (nodo->getInfo() == info) {
-//            if(nodo->getDerecho() != nullptr)
-//                if(nodo->getDerecho()->getInfo()==info)
-//                    return nodo->getDerecho();
-//            if(nodo->getIzquierdo() != nullptr)
-//                if(nodo->getIzquierdo()->getInfo()==info)
-//                    return nodo->getIzquierdo();
-//            return nodo;
-//        }
-//        else {
-//            encontrado = buscar(info, nodo->getIzquierdo());
-//            
-//            if (encontrado) {
-//                return encontrado;
-//            }
-//            
-//            return buscar(info, nodo->getDerecho());
-//        }
-//    }
-//    
-//    return encontrado;
+    //    NodoB<T> * encontrado = nullptr;
+    //
+    //    if (nodo) {
+    //        if (nodo->getInfo() == info) {
+    //            if(nodo->getDerecho() != nullptr)
+    //                if(nodo->getDerecho()->getInfo()==info)
+    //                    return nodo->getDerecho();
+    //            if(nodo->getIzquierdo() != nullptr)
+    //                if(nodo->getIzquierdo()->getInfo()==info)
+    //                    return nodo->getIzquierdo();
+    //            return nodo;
+    //        }
+    //        else {
+    //            encontrado = buscar(info, nodo->getIzquierdo());
+    //
+    //            if (encontrado) {
+    //                return encontrado;
+    //            }
+    //
+    //            return buscar(info, nodo->getDerecho());
+    //        }
+    //    }
+    //
+    //    return encontrado;
     if (node == nullptr)
     {
         return nullptr;
@@ -373,5 +460,22 @@ template <typename T>
 std::ostream& operator<<(std::ostream& os, ArbolBinario<T> &arbol) {
     return arbol.imprime(os, arbol.raiz);
 }
+
+template <class T>
+int ArbolBinario<T>::getBalanceFactor()
+{
+    return getBalanceFactor(raiz);
+}
+
+template <class T>
+int ArbolBinario<T>::getBalanceFactor(NodoB<T> * node)
+{
+    if (node)
+    {
+        return getHeight(node->getDerecho()) - getHeight(node->getIzquierdo());
+    }
+    return 0;
+}
+
 
 #endif
